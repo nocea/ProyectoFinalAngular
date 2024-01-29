@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "proyecto-final-mnocea": {
+      "hosting": {
+        "ProyectoFinalAngular": [
+          "proyecto-final-mnocea"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "proyecto-final-mnocea"
+  }
+}
