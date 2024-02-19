@@ -10,7 +10,6 @@ export class RegistroComponent {
   constructor(private AuthService: AuthService) {
 
   }
-
   signUp(email: string, password: string) {
     this.AuthService.signUpWithEmailAndPassword(email, password);
   }

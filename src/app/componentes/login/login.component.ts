@@ -7,6 +7,8 @@ import { AuthService } from 'src/app//servicios/auth.service';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent {
+email: any;
+password: any;
 
   constructor(private authService: AuthService) {
 

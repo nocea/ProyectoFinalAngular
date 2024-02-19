@@ -35,7 +35,7 @@ export class AuthService {
         this.observeUserState()
       })
       .catch((error) => {
-        alert(error.message);
+        alert("El usuario no existe en la base de datos");
       })
   }
 
@@ -44,7 +44,7 @@ export class AuthService {
     return this.firebaseAuthenticationService.signInWithPopup(new GoogleAuthProvider())
       .then(() => this.observeUserState())
       .catch((error: Error) => {
-        alert(error.message);
+        alert("No se ha podido iniciar sesión con google");
       })
   }
 
@@ -56,13 +56,13 @@ export class AuthService {
         this.observeUserState()
       })
       .catch((error) => {
-        alert(error.message);
+        alert("El email ya está registrado en la base de datos o no es el formato correcto de email");
       })
   }
 
   observeUserState() {
     this.firebaseAuthenticationService.authState.subscribe((userState) => {
-      userState && this.ngZone.run(() => this.router.navigate(['dashboard']))
+      userState && this.ngZone.run(() => this.router.navigate(['dashboard-material']))
     })
   }
 
