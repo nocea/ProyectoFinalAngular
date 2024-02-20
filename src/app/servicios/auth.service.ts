@@ -1,6 +1,8 @@
 import { Injectable, NgZone } from '@angular/core';
 import { GoogleAuthProvider } from '@angular/fire/auth';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
+import { Firestore, addDoc, collection, collectionData, deleteDoc, doc, docData, setDoc } from '@angular/fire/firestore';
+import { Usuario }from '../interfaces/usuario';
 import { Router } from '@angular/router';
 
 @Injectable({
@@ -13,7 +15,8 @@ export class AuthService {
   constructor(
     private firebaseAuthenticationService: AngularFireAuth,
     private router: Router,
-    private ngZone: NgZone
+    private ngZone: NgZone,
+    private firestore :Firestore
   ) {
     // OBSERVER save user in localStorage (log-in) and setting up null when log-out
     this.firebaseAuthenticationService.authState.subscribe((user) => {
@@ -42,18 +45,30 @@ export class AuthService {
   // log-in with google
   logInWithGoogleProvider() {
     return this.firebaseAuthenticationService.signInWithPopup(new GoogleAuthProvider())
-      .then(() => this.observeUserState())
-      .catch((error: Error) => {
-        alert("No se ha podido iniciar sesión con google");
+      .then((userCredential) => {
+        // Aquí tienes acceso al usuario autenticado
+        const user = userCredential.user;
+        
+        // Puedes acceder a los datos del usuario
+        console.log("Usuario autenticado:", user);
+  
+        // Luego, puedes observar el estado del usuario
+        return this.observeUserState();
       })
+      .catch((error) => {
+        alert("No se ha podido iniciar sesión con Google");
+      });
   }
+  
 
   // sign-up with email and password
-  signUpWithEmailAndPassword(email: string, password: string) {
-    return this.firebaseAuthenticationService.createUserWithEmailAndPassword(email, password)
+  signUpWithEmailAndPassword(usuario:Usuario) {
+    return this.firebaseAuthenticationService.createUserWithEmailAndPassword(usuario.email_usuario, usuario.password_usuario)
       .then((userCredential) => {
         this.userData = userCredential.user
         this.observeUserState()
+        const usuarioRef=collection(this.firestore,'usuarios');
+        return addDoc(usuarioRef,usuario);
       })
       .catch((error) => {
         alert("El email ya está registrado en la base de datos o no es el formato correcto de email");

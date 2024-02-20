@@ -4,24 +4,29 @@
       <div class="col-sm-10 col-md-8 col-lg-6">
         <div class="bg-white rounded-lg shadow p-4 dark:bg-gray-800 dark:border-gray-700">
           <h1 class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
-            Registrate en BlogShip!
+            Regístrate en BlogShip!
           </h1>
           <div class="space-y-4">
             <div>
-              <label for="email" class="form-label mb-2 text-gray-900 dark:text-white">Email</label>
-              <input type="email" name="email" id="email" #email
+              <label for="email_usuario" class="form-label mb-2 text-gray-900 dark:text-white">Email</label>
+              <input type="email" name="email_usuario" id="email_usuario" #email_usuario
                 class="form-control bg-gray-50 border-gray-300 text-gray-900 rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 placeholder="example@email.com" required>
             </div>
             <div>
-              <label for="password" class="form-label mb-2 text-gray-900 dark:text-white">Contraseña</label>
-              <input type="password" name="password" id="password" placeholder="••••••••" #password
+              <label for="password_usuario" class="form-label mb-2 text-gray-900 dark:text-white">Contraseña</label>
+              <input type="password" name="password_usuario" id="password_usuario" placeholder="••••••••" #password_usuario
                 class="form-control bg-gray-50 border-gray-300 text-gray-900 rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 required>
             </div>
-
-            <button type="click" (click)="signUp(email.value, password.value)"
-              class="btn btn-primary w-100">Registrate</button>
+            <div>
+              <label for="alias_usuario" class="form-label mb-2 text-gray-900 dark:text-white">Alias usuario</label>
+              <input type="text" name="alias_usuario" id="alias_usuario" placeholder="Alias" #alias_usuario
+                class="form-control bg-gray-50 border-gray-300 text-gray-900 rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                required>
+            </div>
+            <button type="button" (click)="signUp(email_usuario.value, password_usuario.value, alias_usuario.value)"
+              class="btn btn-primary w-100">Regístrate</button>
 
             <p class="text-sm text-center text-gray-500 dark:text-gray-400">
               ¿Ya tienes una cuenta?

@@ -9,7 +9,6 @@ import { getFirestore, provideFirestore } from '@angular/fire/firestore';
 import { environment } from 'src/environments/environment';
 import { LoginComponent } from './componentes/login/login.component';
 import { RegistroComponent } from './componentes/registro/registro.component';
-import { DashboardComponent } from './componentes/dashboard/dashboard.component';
 import { AngularFireModule } from '@angular/fire/compat';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -29,7 +28,6 @@ import { MatListModule } from '@angular/material/list';
     AppComponent,
     LoginComponent,
     RegistroComponent,
-    DashboardComponent,
     DashboardMaterialComponent,
     
   ],
