@@ -27,4 +27,12 @@ export class DatosUsuarioComponent {
       console.error('Error al buscar el usuario por email:', error);
     });
   }
+  borrarPerfil(emailUsuario: string) {
+    this.authService.borrarUsuario(emailUsuario).then(() => {
+      console.log('Perfil borrado exitosamente');
+      // Aquí puedes realizar alguna acción adicional después de borrar el perfil si es necesario
+    }).catch((error) => {
+      console.error('Error al intentar borrar el perfil:', error);
+    });
+  }
 }

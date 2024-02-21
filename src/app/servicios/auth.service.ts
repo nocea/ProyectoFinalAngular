@@ -42,7 +42,34 @@ export class AuthService {
         alert("El usuario no existe en la base de datos");
       })
   }
+async borrarUsuario(email: string): Promise<void> {
+    try {
+      const user = await this.firebaseAuthenticationService.currentUser;
+      if (user) {
+        await user.delete();
+        console.log('Usuario borrado exitosamente de Firebase Authentication');
+      } else {
+        console.log('No hay usuario autenticado');
+        return;
+      }
 
+      // Luego, borramos el usuario de Firestore
+      const usuariosRef = collection(this.firestore, 'usuarios');
+      const queryRef = query(usuariosRef, where('email_usuario', '==', email));
+      const querySnapshot = await getDocs(queryRef);
+
+      if (!querySnapshot.empty) {
+        querySnapshot.forEach(async (doc) => {
+          await deleteDoc(doc.ref);
+        });
+        console.log('Usuario borrado exitosamente de Firestore');
+      } else {
+        console.log('No se encontró ningún usuario con ese email');
+      }
+    } catch (error) {
+      console.error('Error al borrar el usuario:', error);
+    }
+  }
   // log-in with google
   logInWithGoogleProvider() {
     return this.firebaseAuthenticationService.signInWithPopup(new GoogleAuthProvider())
