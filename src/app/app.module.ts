@@ -13,7 +13,7 @@ import { AngularFireModule } from '@angular/fire/compat';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
-import { DashboardMaterialComponent } from './dashboard-material/dashboard-material.component';
+import { DashboardMaterialComponent } from './componentes/dashboard-material/dashboard-material.component';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatCardModule } from '@angular/material/card';
 import { MatMenuModule } from '@angular/material/menu';
@@ -22,6 +22,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
+import { AdminComponent } from './componentes/admin/admin.component';
+import { DatosUsuarioComponent } from './componentes/datos-usuario/datos-usuario.component';
 
 @NgModule({
   declarations: [
@@ -29,6 +31,8 @@ import { MatListModule } from '@angular/material/list';
     LoginComponent,
     RegistroComponent,
     DashboardMaterialComponent,
+    AdminComponent,
+    DatosUsuarioComponent,
     
   ],
   imports: [
@@ -36,6 +40,7 @@ import { MatListModule } from '@angular/material/list';
     AppRoutingModule,
     NgbModule,
     MatSlideToggleModule,
+    MatCardModule,
     provideFirebaseApp(() => initializeApp(environment)),
     provideAuth(() => getAuth()),
     provideFirestore(() => getFirestore()),
