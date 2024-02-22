@@ -11,12 +11,10 @@ import { AuthService } from 'src/app/servicios/auth.service';
   styleUrls: ['./dashboard-material.component.css']
 })
 export class DashboardMaterialComponent {
+  titulo:string="BlogShip"
   private breakpointObserver = inject(BreakpointObserver);
   constructor(private AuthService: AuthService) {
-
   }
-
-
   logOut() {
     this.AuthService.logOut();
   }

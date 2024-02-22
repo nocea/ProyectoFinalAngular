@@ -10,9 +10,23 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class AuthService {
-
+  delusuario(usuario: Usuario) {
+    console.log("entra en borrar")
+    const usuarioRef = doc(this.firestore, `usuarios/${usuario.id}`);
+    return deleteDoc(usuarioRef);
+  }
+  async agregarPost(data: any): Promise<void> {
+    try {
+      const postRef = collection(this.firestore, 'posts');
+      await addDoc(postRef, data);
+      console.log('Post agregado exitosamente.');
+      // Puedes devolver algún resultado si es necesario
+    } catch (error) {
+      console.error('Error al agregar el post:', error);
+      throw error; // Propagar el error para que el componente pueda manejarlo
+    }
+  }
   userData: any;
-
   constructor(
     private firebaseAuthenticationService: AngularFireAuth,
     private router: Router,
@@ -30,7 +44,14 @@ export class AuthService {
     })
 
   }
-
+  getUsuarios():Observable<Usuario[]>{
+    const usuarioRef=collection(this.firestore,'usuarios');
+    return collectionData(usuarioRef,{idField:'id'})as Observable<Usuario[]>;
+  }
+  getUsuario(id: string) {
+    const elementDocRef = doc(this.firestore, `usuario/${id}`);
+    return docData(elementDocRef, { idField: 'id' }) as Observable<any>;
+  }
   // log-in with email and password
   logInWithEmailAndPassword(email: string, password: string) {
     return this.firebaseAuthenticationService.signInWithEmailAndPassword(email, password)
@@ -88,6 +109,7 @@ async borrarUsuario(email: string): Promise<void> {
             } else {
               // El usuario no existe, agregarlo a Firestore
               const usuarioNuevo: Usuario = {
+                id:'',
                 email_usuario: user.email || '',
                 alias_usuario: user.displayName || '',
                 rol_usuario: "USUARIO",

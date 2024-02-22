@@ -2,7 +2,7 @@
   <button type="button" aria-label="Toggle sidenav" mat-icon-button (click)="drawer.toggle()">
     <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
   </button>
-  <span class="menu-title">BlogShip</span>
+  <span class="menu-title">{{titulo}}</span>
 </mat-toolbar>
 
 <mat-sidenav-container class="sidenav-container">
@@ -16,7 +16,7 @@
     </mat-toolbar>
     <mat-nav-list>
       <a mat-list-item [routerLink]="['datosUsuario']">Mi Cuenta</a>
-      <a mat-list-item [routerLink]="['link2']">Link 2</a>
+      <a mat-list-item [routerLink]="['crearPost']">Crear Posts</a>
       <a (click)="logOut()" mat-list-item href="#">Cerrar Sesión</a>
     </mat-nav-list>
   </mat-sidenav>

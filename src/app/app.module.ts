@@ -24,6 +24,11 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
 import { AdminComponent } from './componentes/admin/admin.component';
 import { DatosUsuarioComponent } from './componentes/datos-usuario/datos-usuario.component';
+import { PostsComponent } from './componentes/posts/posts.component';
+import { CrearPostComponent } from './crear-post/crear-post.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ListaUsuariosComponent } from './componentes/lista-usuarios/lista-usuarios.component';
+import { EditarUsuarioComponent } from './componentes/editar-usuario/editar-usuario.component';
 
 @NgModule({
   declarations: [
@@ -33,6 +38,10 @@ import { DatosUsuarioComponent } from './componentes/datos-usuario/datos-usuario
     DashboardMaterialComponent,
     AdminComponent,
     DatosUsuarioComponent,
+    PostsComponent,
+    CrearPostComponent,
+    ListaUsuariosComponent,
+    EditarUsuarioComponent,
     
   ],
   imports: [
@@ -41,6 +50,8 @@ import { DatosUsuarioComponent } from './componentes/datos-usuario/datos-usuario
     NgbModule,
     MatSlideToggleModule,
     MatCardModule,
+    ReactiveFormsModule,
+    FormsModule,
     provideFirebaseApp(() => initializeApp(environment)),
     provideAuth(() => getAuth()),
     provideFirestore(() => getFirestore()),

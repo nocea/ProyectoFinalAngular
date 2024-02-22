@@ -1,0 +1,29 @@
+<div class="container mt-5">
+  <h2 class="text-center mb-4">Usuarios</h2>
+  <div class="form-group">
+    <input type="text" class="form-control" placeholder="Buscar por email o alias" [(ngModel)]="filtroNombre">
+  </div>
+  <table class="table table-bordered table-hover">
+    <thead class="text-center">
+      <tr>
+        <th>ID</th>
+        <th>Alias</th>
+        <th>Email</th>
+        <th>ROL</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody class="text-center">
+      <tr *ngFor="let usuario of usuarios; let i = index">
+        <td>{{ i+1 }}</td>
+        <td>{{ usuario.alias_usuario }}</td>
+        <td>{{ usuario.email_usuario }}</td>
+        <td>{{ usuario.rol_usuario }}</td>
+        <td>
+          <button class="btn btn-outline-danger" (click)="delUsuario(usuario)">Borrar</button>
+          <button class="btn btn-outline-primary" (click)="editarUsuario(usuario)">Editar</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
