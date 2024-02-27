@@ -10,22 +10,23 @@ import { Router } from '@angular/router';
 export class ListaUsuariosComponent implements OnInit{
   usuarios: Usuario[] = [];
   filtroNombre: string = '';
-  router!: Router;
-  constructor(private authService: AuthService) { }
+  constructor(private authService: AuthService,private router: Router) { }
 
   ngOnInit(): void {
     //guardo los candidatos en la lista
-    this.authService.getUsuarios().subscribe(usuario => {
-      this.usuarios = usuario;
-      this.usuarios = this.usuarios.filter(usuario => usuario.rol_usuario !== "ADMIN");
-    })
+    this.authService.getUsuarios().subscribe(usuarios => {
+      // Filtrar usuarios que no tienen el rol 'ADMIN'
+      usuarios.forEach(usuario => {
+        if (usuario.rol_usuario !== 'ADMIN') {
+          this.usuarios.push(usuario);
+        }
+      });
+      console.log(this.usuarios);
+    });
    
   }
-  delUsuario(usuario: Usuario) {
-    this.authService.delusuario(usuario);
-  }
-  editarUsuario(usuario: Usuario) {
-    // Redirige a un componente de edición y pasa el ID del usuario como parámetro
-    this.router.navigate(['/editar-usuario', usuario.id]);
+  editarUsuario(usuario: Usuario): void {
+    const usuarioId = usuario.id; // Asumiendo que cada usuario tiene una propiedad 'id'
+    this.router.navigate(['/admin/editar-usuario', usuarioId]);
   }
 }

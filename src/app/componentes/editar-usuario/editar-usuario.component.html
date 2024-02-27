@@ -1,1 +1,30 @@
-<p>editar-usuario works!</p>
+<div *ngIf="usuario" class="container mt-5">
+    <h2 class="text-center mb-4">Editar Usuario</h2>
+    <form (ngSubmit)="onSubmit()" class="card p-4">
+      <div class="mb-3">
+        <mat-form-field appearance="fill" class="w-100">
+          <mat-label>Alias</mat-label>
+          <input matInput type="text" id="alias" name="alias" [(ngModel)]="alias_usuario" required>
+        </mat-form-field>
+      </div>
+      <div class="mb-3">
+        <mat-form-field appearance="fill" class="w-100">
+          <mat-label>Email</mat-label>
+          <input matInput type="email" id="email" name="email" [(ngModel)]="email_usuario" required>
+        </mat-form-field>
+      </div>
+      <div class="mb-3">
+        <mat-form-field appearance="fill" class="w-100">
+          <mat-label>Rol</mat-label>
+          <mat-select id="rol" name="rol" [(ngModel)]="rol_usuario" required>
+            <mat-option value="USUARIO">Usuario</mat-option>
+            <mat-option value="ADMIN">Admin</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div class="text-center">
+        <button mat-raised-button color="primary" type="submit">Guardar Cambios</button>
+      </div>
+    </form>
+  </div>
+  

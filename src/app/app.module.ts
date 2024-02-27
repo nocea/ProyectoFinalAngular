@@ -25,11 +25,16 @@ import { MatListModule } from '@angular/material/list';
 import { AdminComponent } from './componentes/admin/admin.component';
 import { DatosUsuarioComponent } from './componentes/datos-usuario/datos-usuario.component';
 import { PostsComponent } from './componentes/posts/posts.component';
-import { CrearPostComponent } from './crear-post/crear-post.component';
+import { CrearPostComponent } from './componentes/crear-post/crear-post.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ListaUsuariosComponent } from './componentes/lista-usuarios/lista-usuarios.component';
 import { EditarUsuarioComponent } from './componentes/editar-usuario/editar-usuario.component';
-
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
+import { MatTableModule } from '@angular/material/table';
+import { ParaTiComponent } from './componentes/para-ti/para-ti.component';
+import { ComentarPostComponent } from './componentes/comentar-post/comentar-post.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -42,6 +47,8 @@ import { EditarUsuarioComponent } from './componentes/editar-usuario/editar-usua
     CrearPostComponent,
     ListaUsuariosComponent,
     EditarUsuarioComponent,
+    ParaTiComponent,
+    ComentarPostComponent,
     
   ],
   imports: [
@@ -52,6 +59,10 @@ import { EditarUsuarioComponent } from './componentes/editar-usuario/editar-usua
     MatCardModule,
     ReactiveFormsModule,
     FormsModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatSelectModule,
+    MatTableModule,
     provideFirebaseApp(() => initializeApp(environment)),
     provideAuth(() => getAuth()),
     provideFirestore(() => getFirestore()),

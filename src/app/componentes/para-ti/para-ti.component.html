@@ -1,0 +1,17 @@
+<div class="container mt-5">
+  <div *ngIf="posts$ | async as posts">
+    <div class="row">
+      <div class="col-md-6 offset-md-3">
+        <div class="card mb-3" *ngFor="let post of posts">
+          <img class="card-img-top" src="{{ post.ruta_imagen }}" alt="Imagen del post">
+          <div class="card-body">
+            <h5 class="card-title">{{ post.titulo_imagen }}</h5>
+            <p class="card-text">{{ post.pie_imagen }}</p>
+            <!-- Agregamos el botón que llama al método y pasa el post como parámetro -->
+            <button class="btn btn-primary" (click)="comentarPost(post)">Comentar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

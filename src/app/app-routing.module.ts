@@ -7,9 +7,11 @@ import { DashboardMaterialComponent } from './componentes/dashboard-material/das
 import { AdminComponent } from './componentes/admin/admin.component';
 import { adminGuardGuard } from './guards/admin-guard.guard';
 import { DatosUsuarioComponent } from './componentes/datos-usuario/datos-usuario.component';
-import { CrearPostComponent } from './crear-post/crear-post.component';
+import { CrearPostComponent } from './componentes/crear-post/crear-post.component';
 import { ListaUsuariosComponent } from './componentes/lista-usuarios/lista-usuarios.component';
 import { EditarUsuarioComponent } from './componentes/editar-usuario/editar-usuario.component';
+import { ComentarPostComponent } from './componentes/comentar-post/comentar-post.component';
+import { ParaTiComponent } from './componentes/para-ti/para-ti.component';
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
   { 
@@ -18,8 +20,9 @@ const routes: Routes = [
     canActivate: [AuthGuard],
     children: [
       { path: 'datosUsuario', component: DatosUsuarioComponent },
-      { path: 'crearPost', component: CrearPostComponent }, // Ruta dentro de DashboardMaterialComponent
-      // Otras rutas secundarias de DashboardMaterialComponent si es necesario
+      { path: 'crearPost', component: CrearPostComponent },
+      { path: 'paraTi', component: ParaTiComponent },
+      { path: 'comentar/:id', component: ComentarPostComponent },
     ]
   },
   { path: 'login', component: LoginComponent },

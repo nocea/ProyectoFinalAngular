@@ -4,4 +4,6 @@ export interface Usuario {
     alias_usuario: string;
     rol_usuario:string;
     password_usuario:string;
+    id_firestore:any;
+    
   }

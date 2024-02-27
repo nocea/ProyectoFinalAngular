@@ -1,5 +1,9 @@
+import { Usuario } from "./usuario";
+
 export interface Post{
-    imagen_post:string;
+    id: string;
+    ruta_imagen:string| null;
     titulo_imagen:string;
     pie_imagen:string;
+    usuario:Usuario | null;
 }

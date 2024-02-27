@@ -1,37 +1,28 @@
 import { Injectable, NgZone } from '@angular/core';
-import { GoogleAuthProvider } from '@angular/fire/auth';
+import { GoogleAuthProvider, deleteUser, getAuth } from '@angular/fire/auth';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { Firestore, addDoc, collection, collectionData, deleteDoc, doc, docData, getDocs, query, setDoc, where } from '@angular/fire/firestore';
-import { Usuario }from '../interfaces/usuario';
+import { Usuario } from '../interfaces/usuario';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
+import { Post } from '../interfaces/post';
+import { Comentario } from '../interfaces/comentario';
+
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  delusuario(usuario: Usuario) {
-    console.log("entra en borrar")
-    const usuarioRef = doc(this.firestore, `usuarios/${usuario.id}`);
-    return deleteDoc(usuarioRef);
-  }
-  async agregarPost(data: any): Promise<void> {
-    try {
-      const postRef = collection(this.firestore, 'posts');
-      await addDoc(postRef, data);
-      console.log('Post agregado exitosamente.');
-      // Puedes devolver algún resultado si es necesario
-    } catch (error) {
-      console.error('Error al agregar el post:', error);
-      throw error; // Propagar el error para que el componente pueda manejarlo
-    }
+  getPostEditar(id: string) {
+    throw new Error('Method not implemented.');
   }
   userData: any;
   constructor(
     private firebaseAuthenticationService: AngularFireAuth,
     private router: Router,
     private ngZone: NgZone,
-    private firestore :Firestore
+    private firestore :Firestore,
+    private afAuth: AngularFireAuth
   ) {
     // OBSERVER save user in localStorage (log-in) and setting up null when log-out
     this.firebaseAuthenticationService.authState.subscribe((user) => {
@@ -44,13 +35,75 @@ export class AuthService {
     })
 
   }
+  crearComentario(comentario: Comentario) {
+  const comentarioRef = collection(this.firestore, 'comentarios');
+  addDoc(comentarioRef, comentario);
+}
+      async guardarPost1(post: Post): Promise<void> {
+        try {
+            const user = await this.firebaseAuthenticationService.currentUser;
+            if (user && user.email) {
+                const userEmail = user?.email;
+                const usuario = await this.findUserByEmail(userEmail);
+                if (usuario) {
+                    post.usuario = usuario;
+                    const postRef = collection(this.firestore, 'posts');
+                    await addDoc(postRef, post);
+                    console.log('Post agregado exitosamente.');
+                }
+            }
+        } catch (error) {
+            console.error('Error al agregar el post:', error);
+            throw error; // Propagar el error para que el componente pueda manejarlo
+        }
+      }
+      async getCurrentUser(): Promise<Usuario | null> {
+        try {
+          const user = await this.firebaseAuthenticationService.currentUser;
+          
+          if (user && user.email) {
+              const userEmail = user?.email;
+              
+              const usuario = await this.findUserByEmail(userEmail);
+            
+              if (usuario) {
+                  return usuario;
+              }else{
+                return null;
+              }
+          }
+          else{
+            return null;
+          }
+      } catch (error) {
+          console.error('Error al agregar el post:', error);
+          throw error; // Propagar el error para que el componente pueda manejarlo
+      }
+      }
+  getComentariosPorPost(postId: string): Observable<Comentario[]> {
+      const comentariosRef = collection(this.firestore, 'comentarios');
+      const queryRef = query(comentariosRef, where('post.id', '==', postId));
+      return collectionData(queryRef, { idField: 'id' }) as Observable<Comentario[]>;
+    }
   getUsuarios():Observable<Usuario[]>{
     const usuarioRef=collection(this.firestore,'usuarios');
     return collectionData(usuarioRef,{idField:'id'})as Observable<Usuario[]>;
   }
+  getPosts(): Observable<Post[]> {
+    const postsRef = collection(this.firestore, 'posts');
+    return collectionData(postsRef, { idField: 'id' }) as Observable<Post[]>;
+  }
   getUsuario(id: string) {
     const elementDocRef = doc(this.firestore, `usuario/${id}`);
     return docData(elementDocRef, { idField: 'id' }) as Observable<any>;
+  }
+  getPost(id: string): Observable<Post> {
+    const elementDocRef = doc(this.firestore, `posts/${id}`);
+    return docData(elementDocRef, { idField: 'id' }) as Observable<Post>;
+  }
+  getUsuarioEditar(id: string): Observable<Usuario> {
+    const elementDocRef = doc(this.firestore, `usuarios/${id}`);
+    return docData(elementDocRef, { idField: 'id' }) as Observable<Usuario>;
   }
   // log-in with email and password
   logInWithEmailAndPassword(email: string, password: string) {
@@ -62,6 +115,16 @@ export class AuthService {
       .catch((error) => {
         alert("El usuario no existe en la base de datos");
       })
+  }
+  async updateUsuario(id: string, data: any): Promise<void> {
+    try {
+      const usuarioRef = doc(this.firestore, `usuarios/${id}`);
+      await setDoc(usuarioRef, data, { merge: true });
+      console.log('Usuario actualizado exitosamente en Firestore');
+    } catch (error) {
+      console.error('Error al actualizar el usuario en Firestore:', error);
+      throw error; // Propaga el error para que el componente pueda manejarlo
+    }
   }
 async borrarUsuario(email: string): Promise<void> {
     try {
@@ -96,24 +159,25 @@ async borrarUsuario(email: string): Promise<void> {
     return this.firebaseAuthenticationService.signInWithPopup(new GoogleAuthProvider())
       .then((userCredential) => {
         const user = userCredential.user;
-  
+        const uid = userCredential.user?.uid;
         if (user !== null) {
           // Verificar si el usuario ya existe en Firestore
           const usuariosRef = collection(this.firestore, 'usuarios');
           const queryRef = query(usuariosRef, where('email_usuario', '==', user.email));
-          
+  
           getDocs(queryRef).then((querySnapshot) => {
             if (querySnapshot.size > 0) {
               // El usuario ya existe, no es necesario agregarlo nuevamente
               console.log("El usuario ya existe en Firestore");
             } else {
               // El usuario no existe, agregarlo a Firestore
-              const usuarioNuevo: Usuario = {
-                id:'',
+              const usuarioNuevo = {
                 email_usuario: user.email || '',
                 alias_usuario: user.displayName || '',
                 rol_usuario: "USUARIO",
-                password_usuario: ''
+                id_firestore:uid,
+                password_usuario: '',
+
               };
   
               addDoc(usuariosRef, usuarioNuevo)
@@ -138,24 +202,22 @@ async borrarUsuario(email: string): Promise<void> {
         alert("No se ha podido iniciar sesión con Google");
       });
   }
-  
-  
-  
-
   // sign-up with email and password
   signUpWithEmailAndPassword(usuario:Usuario) {
     return this.firebaseAuthenticationService.createUserWithEmailAndPassword(usuario.email_usuario, usuario.password_usuario)
+    
       .then((userCredential) => {
         this.userData = userCredential.user
+        const uid = userCredential.user?.uid;
         this.observeUserState()
         const usuarioRef=collection(this.firestore,'usuarios');
+        usuario.id_firestore = uid;
         return addDoc(usuarioRef,usuario);
       })
       .catch((error) => {
         alert("El email ya está registrado en la base de datos o no es el formato correcto de email");
       })
   }
-
   observeUserState() {
     this.firebaseAuthenticationService.authState.subscribe((userState) => {
       if (userState) {
@@ -242,8 +304,7 @@ async borrarUsuario(email: string): Promise<void> {
   currentUser() {
     const userJson = localStorage.getItem('user');
     return userJson ? JSON.parse(userJson) : null;
-  }
-  
+  } 
   // logOut
   logOut() {
     return this.firebaseAuthenticationService.signOut().then(() => {

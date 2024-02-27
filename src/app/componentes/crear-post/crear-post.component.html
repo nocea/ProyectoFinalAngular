@@ -1,0 +1,21 @@
+<div class="container mt-5">
+    <h2 class="text-center mb-4">Crear Post</h2>
+    <form (ngSubmit)="onSubmit()" class="card p-4" #postForm="ngForm">
+      <div class="mb-3">
+        <mat-form-field appearance="fill" class="w-100">
+          <mat-label>Título</mat-label>
+          <input matInput type="text" id="tituloInput" name="tituloInput" [(ngModel)]="titulo" required>
+        </mat-form-field>
+      </div>
+      <div class="mb-3">
+        <mat-form-field appearance="fill" class="w-100">
+          <mat-label>Pie de imagen</mat-label>
+          <textarea matInput id="pieInput" name="pieInput" [(ngModel)]="pie" required></textarea>
+        </mat-form-field>
+      </div>
+      <div class="text-center">
+        <button mat-raised-button color="primary" type="submit">Guardar</button>
+      </div>
+    </form>
+  </div>
+  
