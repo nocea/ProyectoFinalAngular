@@ -16,10 +16,10 @@ export class ParaTiComponent implements OnInit{
 
   ngOnInit(): void {
     this.posts$ = this.authService.getPosts();
+    console.log(this.posts$)
   }
   comentarPost(post: Post) {
     // Aquí puedes realizar cualquier acción relacionada con el post comentado
-    console.log('Post comentado:', post);
     // Por ejemplo, podrías navegar a otra ruta y pasar el post como parámetro
     this.router.navigate(['/dashboard-material/comentar', post.id]);
   }

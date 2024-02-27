@@ -5,4 +5,18 @@
     </div>
     <button class="btn btn-primary m-1" type="submit">Enviar</button>
 </form>
+<!-- comentar-post.component.html -->
+<div *ngIf="comentarios.length > 0;">
+    <h3>Comentarios:</h3>
+    <ul>
+      <li *ngFor="let comentario of comentarios">
+        <ng-container *ngIf="comentario.post_comentario.id === idpost">
+          {{ comentario.texto_comentario }}
+          <!-- Aquí puedes mostrar otros detalles del comentario si lo deseas -->
+        </ng-container>
+      </li>
+    </ul>
+</div>
+
+  
   

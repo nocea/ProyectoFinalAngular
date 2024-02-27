@@ -19,6 +19,8 @@ export class ComentarPostComponent implements OnInit {
   postComentar!:Post|null;
   comentario!:Comentario;
   noComentario!: string;
+  comentarios: Comentario[] = [];
+  comentariosFiltrados:Comentario[]=[];
   form = this.fb.group({
     texto_comentario: ['', Validators.required],
   });
@@ -31,21 +33,42 @@ export class ComentarPostComponent implements OnInit {
   commentForm!: FormGroup;
   ngOnInit(){
     const id = this.route.snapshot.paramMap.get('id');
+    console.log(id)
+    this.authservice.getComentarios().subscribe(comentarios => {
+      // Filtrar usuarios que no tienen el rol 'ADMIN'
+      comentarios.forEach(comentario => {
+        
+          this.comentarios.push(comentario);
+        
+      });
+      console.log("comentarios",this.comentarios);
+    });
+    this.comentarios.forEach(comentario => {
+      if(comentario.post_comentario.id==id){
+      this.comentariosFiltrados.push(comentario)
+      }// Ejemplo de acción con cada comentario
+    });
+    console.log(this.comentariosFiltrados)
+    // Asignar el Observable
     if (id !== null) {
       this.idpost = id;
       this.authservice.getPost(id).subscribe((post: Post) => {
         this.postComentar=post;
-        console.log("postcomoentar",this.postComentar);
       });
     }
     
+    this.comentarios.forEach(comentario => {
+      if(comentario.post_comentario.id==this.idpost){
+      this.comentariosFiltrados.push(comentario)
+      }// Ejemplo de acción con cada comentario
+    });
+    console.log(this.comentariosFiltrados)
     // Llamar al método para obtener el usuario actual
     this.authservice.getCurrentUser().then((usuario: Usuario | null) => {
       this.usuario = usuario;
-      
-      console.log("usuariocomentario ",this.usuario);
-      // Después de obtener el usuario, puedes inicializar el formulario
     });
+
+    
   }
 
   enviar() {

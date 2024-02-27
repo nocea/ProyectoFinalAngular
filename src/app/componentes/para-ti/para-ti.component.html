@@ -2,16 +2,22 @@
   <div *ngIf="posts$ | async as posts">
     <div class="row">
       <div class="col-md-6 offset-md-3">
-        <div class="card mb-3" *ngFor="let post of posts">
-          <img class="card-img-top" src="{{ post.ruta_imagen }}" alt="Imagen del post">
+        <mat-card *ngFor="let post of posts" class="mb-3">
+          <!-- Título del post -->
+          <mat-card-header>
+            <mat-card-title><strong>{{ post.titulo_imagen }}</strong></mat-card-title>
+          </mat-card-header>
+          <!-- Imagen del post -->
+          <img mat-card-image src="{{ post.ruta_imagen }}" alt="Imagen del post">
           <div class="card-body">
-            <h5 class="card-title">{{ post.titulo_imagen }}</h5>
+            <!-- Pie de foto del post -->
             <p class="card-text">{{ post.pie_imagen }}</p>
             <!-- Agregamos el botón que llama al método y pasa el post como parámetro -->
-            <button class="btn btn-primary" (click)="comentarPost(post)">Comentar</button>
+            <button mat-button color="primary" class="btn btn-primary btn-sm" (click)="comentarPost(post)">Comentar</button>
           </div>
-        </div>
+        </mat-card>
       </div>
     </div>
   </div>
 </div>
+

@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { AuthService } from 'src/app/servicios/auth.service';
 import { Usuario } from 'src/app/interfaces/usuario'; // Asegúrate de importar Usuario desde la ubicación correcta
 import { Post } from 'src/app/interfaces/post';// Asegúrate de importar Post desde la ubicación correcta
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-crear-post',
@@ -13,7 +14,8 @@ export class CrearPostComponent {
   pie: string = '';
   imagen: File | null = null;
 
-  constructor(private authService: AuthService) {}
+
+  constructor(private authService: AuthService,private route: ActivatedRoute,private router: Router) {}
 
 
   onSubmit() {
@@ -28,7 +30,7 @@ export class CrearPostComponent {
             id: ''
           };
           this.guardarPostFirestore(post);
-        console.log("llama a guardar")
+          this.router.navigate(['/dashboard-material/paraTi']);
     } else {
       alert('Por favor, completa todos los campos y selecciona una imagen.');
     }
@@ -39,6 +41,7 @@ export class CrearPostComponent {
     this.authService.guardarPost1(post)
       .then(response => {
         console.log('Post guardado en Firestore:', response);
+        
         // Aquí podrías manejar el éxito de la operación
       })
       .catch(error => {

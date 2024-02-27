@@ -1,0 +1,8 @@
+.comment-button-container {
+    border: 1px solid #007bff; /* Establece un borde sólido de color azul, puedes ajustar el color según tus preferencias */
+    border-radius: 5px; /* Agrega esquinas redondeadas al contenedor */
+    padding: 5px; /* Añade un poco de espacio alrededor del botón */
+    margin-top: 10px; /* Añade un poco de margen superior para separarlo del texto */
+    display: inline-block; /* Permite que el contenedor se ajuste al contenido */
+  }
+  

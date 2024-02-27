@@ -13,9 +13,6 @@ import { Comentario } from '../interfaces/comentario';
   providedIn: 'root'
 })
 export class AuthService {
-  getPostEditar(id: string) {
-    throw new Error('Method not implemented.');
-  }
   userData: any;
   constructor(
     private firebaseAuthenticationService: AngularFireAuth,
@@ -80,19 +77,20 @@ export class AuthService {
           throw error; // Propagar el error para que el componente pueda manejarlo
       }
       }
-  getComentariosPorPost(postId: string): Observable<Comentario[]> {
-      const comentariosRef = collection(this.firestore, 'comentarios');
-      const queryRef = query(comentariosRef, where('post.id', '==', postId));
-      return collectionData(queryRef, { idField: 'id' }) as Observable<Comentario[]>;
-    }
+      
   getUsuarios():Observable<Usuario[]>{
     const usuarioRef=collection(this.firestore,'usuarios');
     return collectionData(usuarioRef,{idField:'id'})as Observable<Usuario[]>;
+  }
+  getComentarios():Observable<Comentario[]>{
+    const comentarioRef=collection(this.firestore,'comentarios');
+    return collectionData(comentarioRef,{idField:'id'})as Observable<Comentario[]>;
   }
   getPosts(): Observable<Post[]> {
     const postsRef = collection(this.firestore, 'posts');
     return collectionData(postsRef, { idField: 'id' }) as Observable<Post[]>;
   }
+  
   getUsuario(id: string) {
     const elementDocRef = doc(this.firestore, `usuario/${id}`);
     return docData(elementDocRef, { idField: 'id' }) as Observable<any>;
