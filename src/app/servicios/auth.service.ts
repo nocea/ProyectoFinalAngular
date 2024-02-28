@@ -39,14 +39,14 @@ export class AuthService {
 }
       async guardarPost1(post: Post): Promise<void> {
         try {
-            const user = await this.firebaseAuthenticationService.currentUser;
+            const user = await this.firebaseAuthenticationService.currentUser;//obtengo el usuario actual
             if (user && user.email) {
                 const userEmail = user?.email;
-                const usuario = await this.findUserByEmail(userEmail);
+                const usuario = await this.findUserByEmail(userEmail);//busco su email para poder asignarle el objeto a post
                 if (usuario) {
                     post.usuario = usuario;
                     const postRef = collection(this.firestore, 'posts');
-                    await addDoc(postRef, post);
+                    await addDoc(postRef, post);//lo añado
                     console.log('Post agregado exitosamente.');
                 }
             }
@@ -80,8 +80,8 @@ export class AuthService {
       }
       borrarPost(postID: string) {
         try {
-          const postRef = doc(this.firestore, `posts/${postID}`);
-          deleteDoc(postRef);
+          const postRef = doc(this.firestore, `posts/${postID}`);//obtengo el post  por su id
+          deleteDoc(postRef);//lo borro
           console.log('Post eliminado exitosamente.');
         } catch (error) {
           console.error('Error al eliminar el post:', error);
@@ -115,7 +115,7 @@ export class AuthService {
   }
   // log-in with email and password
   logInWithEmailAndPassword(email: string, password: string) {
-    return this.firebaseAuthenticationService.signInWithEmailAndPassword(email, password)
+    return this.firebaseAuthenticationService.signInWithEmailAndPassword(email, password)//metodo de firebase autentification
       .then((userCredential) => {
         this.userData = userCredential.user
         this.observeUserState()
@@ -126,8 +126,8 @@ export class AuthService {
   }
   async updateUsuario(id: string, data: any): Promise<void> {
     try {
-      const usuarioRef = doc(this.firestore, `usuarios/${id}`);
-      await setDoc(usuarioRef, data, { merge: true });
+      const usuarioRef = doc(this.firestore, `usuarios/${id}`);//busco el usuario
+      await setDoc(usuarioRef, data, { merge: true });//actualizo con lo nuevo
       console.log('Usuario actualizado exitosamente en Firestore');
     } catch (error) {
       console.error('Error al actualizar el usuario en Firestore:', error);
@@ -136,9 +136,9 @@ export class AuthService {
   }
 async borrarUsuario(email: string): Promise<void> {
     try {
-      const user = await this.firebaseAuthenticationService.currentUser;
+      const user = await this.firebaseAuthenticationService.currentUser;//busco el usuario actual
       if (user) {
-        await user.delete();
+        await user.delete();//lo borrro
         console.log('Usuario borrado exitosamente de Firebase Authentication');
       } else {
         console.log('No hay usuario autenticado');
@@ -152,7 +152,7 @@ async borrarUsuario(email: string): Promise<void> {
 
       if (!querySnapshot.empty) {
         querySnapshot.forEach(async (doc) => {
-          await deleteDoc(doc.ref);
+          await deleteDoc(doc.ref);//tambien lo borro de firestore
         });
         console.log('Usuario borrado exitosamente de Firestore');
       } else {
@@ -261,17 +261,17 @@ async borrarUsuario(email: string): Promise<void> {
   }
   async getRoleByEmail(email: string): Promise<string | null> {
     try {
-      const usuariosRef = collection(this.firestore, 'usuarios');
-      const queryRef = query(usuariosRef, where('email_usuario', '==', email));
+      const usuariosRef = collection(this.firestore, 'usuarios'); //obtengo todos los usuarios
+      const queryRef = query(usuariosRef, where('email_usuario', '==', email));//filtro por email
       const querySnapshot = await getDocs(queryRef);
   
       if (!querySnapshot.empty) {
         let role: string | null = null;
         querySnapshot.forEach((doc) => {
           const userData = doc.data() as Usuario;
-          role = userData.rol_usuario;
+          role = userData.rol_usuario; //obtengo su rol
         });
-        return role;
+        return role;//lo devuelvo
       } else {
         // El usuario no está en Firestore
         console.log('El usuario no está registrado en Firestore');
@@ -285,7 +285,7 @@ async borrarUsuario(email: string): Promise<void> {
   async findUserByEmail(email: string): Promise<Usuario | null> {
     try {
       const usuariosRef = collection(this.firestore, 'usuarios');
-      const queryRef = query(usuariosRef, where('email_usuario', '==', email));
+      const queryRef = query(usuariosRef, where('email_usuario', '==', email));//filtro los usuarios por email
       const querySnapshot = await getDocs(queryRef);
 
       if (!querySnapshot.empty) {
@@ -293,7 +293,7 @@ async borrarUsuario(email: string): Promise<void> {
         querySnapshot.forEach((doc) => {
           userData = doc.data() as Usuario;
         });
-        return userData;
+        return userData;//devuelvo sus datos
       } else {
         // El usuario no está en Firestore
         console.log('El usuario no está registrado en Firestore');
@@ -316,7 +316,7 @@ async borrarUsuario(email: string): Promise<void> {
   // logOut
   logOut() {
     return this.firebaseAuthenticationService.signOut().then(() => {
-      localStorage.removeItem('user');
+      localStorage.removeItem('user');//borro el usuario del localstorage y asi cierro su sesion
       this.router.navigate(['login']);
     })
   }
