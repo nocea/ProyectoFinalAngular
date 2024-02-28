@@ -16,7 +16,7 @@
     </mat-toolbar>
     <mat-nav-list>
       <a mat-list-item [routerLink]="['listaUsuarios']">Usuarios</a>
-      <a mat-list-item >Posts</a>
+      <a mat-list-item [routerLink]="['listaPosts']">Posts</a>
       <a (click)="logOut()" mat-list-item href="#">Cerrar Sesión</a>
     </mat-nav-list>
   </mat-sidenav>

@@ -13,6 +13,7 @@ import { Comentario } from '../interfaces/comentario';
   providedIn: 'root'
 })
 export class AuthService {
+  
   userData: any;
   constructor(
     private firebaseAuthenticationService: AngularFireAuth,
@@ -77,7 +78,16 @@ export class AuthService {
           throw error; // Propagar el error para que el componente pueda manejarlo
       }
       }
-      
+      borrarPost(postID: string) {
+        try {
+          const postRef = doc(this.firestore, `posts/${postID}`);
+          deleteDoc(postRef);
+          console.log('Post eliminado exitosamente.');
+        } catch (error) {
+          console.error('Error al eliminar el post:', error);
+          throw error; // Propagar el error para que el componente pueda manejarlo
+        }
+      }
   getUsuarios():Observable<Usuario[]>{
     const usuarioRef=collection(this.firestore,'usuarios');
     return collectionData(usuarioRef,{idField:'id'})as Observable<Usuario[]>;

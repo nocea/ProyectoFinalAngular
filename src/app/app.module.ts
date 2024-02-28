@@ -35,6 +35,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatTableModule } from '@angular/material/table';
 import { ParaTiComponent } from './componentes/para-ti/para-ti.component';
 import { ComentarPostComponent } from './componentes/comentar-post/comentar-post.component';
+import { ListaPostsComponent } from './componentes/lista-posts/lista-posts.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -49,6 +50,7 @@ import { ComentarPostComponent } from './componentes/comentar-post/comentar-post
     EditarUsuarioComponent,
     ParaTiComponent,
     ComentarPostComponent,
+    ListaPostsComponent,
     
   ],
   imports: [

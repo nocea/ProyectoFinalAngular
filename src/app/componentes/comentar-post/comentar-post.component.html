@@ -1,22 +1,26 @@
-<form [formGroup]="form" (ngSubmit)="enviar()">
-    <div class="form-group">
-        <label for="texto_comentario">Comentario:</label>
-        <input class="form-control" formControlName="texto_comentario" name="texto_comentario">
-    </div>
-    <button class="btn btn-primary m-1" type="submit">Enviar</button>
+<form [formGroup]="form" (ngSubmit)="enviar()" class="example-form">
+  <mat-form-field appearance="fill" class="example-full-width">
+      <mat-label>Comentario</mat-label>
+      <input matInput formControlName="texto_comentario" name="texto_comentario">
+  </mat-form-field>
+  <button mat-raised-button color="primary" type="submit">Enviar</button>
 </form>
-<!-- comentar-post.component.html -->
+
+
 <div *ngIf="comentarios.length > 0;">
     <h3>Comentarios:</h3>
-    <ul>
-      <li *ngFor="let comentario of comentarios">
+    <div *ngFor="let comentario of comentarios">
         <ng-container *ngIf="comentario.post_comentario.id === idpost">
-          {{ comentario.texto_comentario }}
-          <!-- Aquí puedes mostrar otros detalles del comentario si lo deseas -->
+            <div class="card">
+                <div class="card-body">
+                    {{ comentario.texto_comentario }}
+                    <!-- Aquí puedes mostrar otros detalles del comentario si lo deseas -->
+                </div>
+            </div>
         </ng-container>
-      </li>
-    </ul>
+    </div>
 </div>
+
 
   
   

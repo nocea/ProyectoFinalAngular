@@ -12,6 +12,7 @@ import { ListaUsuariosComponent } from './componentes/lista-usuarios/lista-usuar
 import { EditarUsuarioComponent } from './componentes/editar-usuario/editar-usuario.component';
 import { ComentarPostComponent } from './componentes/comentar-post/comentar-post.component';
 import { ParaTiComponent } from './componentes/para-ti/para-ti.component';
+import { ListaPostsComponent } from './componentes/lista-posts/lista-posts.component';
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
   { 
@@ -31,6 +32,7 @@ const routes: Routes = [
   children: [
     { path: 'listaUsuarios', component: ListaUsuariosComponent },
     { path: 'editar-usuario/:id', component: EditarUsuarioComponent },
+    { path: 'listaPosts', component: ListaPostsComponent },
   ]
  },
 ];

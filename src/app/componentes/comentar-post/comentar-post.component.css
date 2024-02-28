@@ -1,0 +1,14 @@
+.comentario {
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 10px;
+    background-color: #f9f9f9;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.comentario .card-body {
+    font-size: 16px;
+    color: #333;
+}
+
